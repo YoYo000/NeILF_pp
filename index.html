@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NeILF++: Inter-reflectable Light Fields for Geometry and Material Estimation</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/dics.min.css">
+    <script src="scripts/dics.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', domReady);
+        function domReady() {
+            for (const e of document.querySelectorAll(".b-dics")) {
+                new Dics({
+                    container: e,
+                    textPosition: "top"
+                });
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <section>
+        <div class="jumbotron text-center mt-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>NeILF++: Inter-reflectable Light Fields for Geometry and Material Estimation</h1>
+                        <h4 style="color:#5a6268;"> arXiv 2023 </h4>
+                        <hr>
+                        <h5> Jingyang Zhang, <a href="https://yoyo000.github.io/" target="_blank">Yao Yao†</a>, Shiwei
+                            Li, Jingbo Liu, Tian Fang, David McKinnon, Yanghai Tsin, <a
+                                href="https://www.cse.ust.hk/~quan/" target="_blank">Long Quan</a> </h5>
+                        <h5 style="color:#5a6268;"> Apple </h5>
+                        <br>
+                        <p><a class="btn btn-secondary btn-lg" href="" role="button">Paper (Upcoming)</a> <a
+                                class="btn btn-secondary btn-lg" href="" role="button">Code (Upcoming)</a> <a
+                                class="btn btn-secondary btn-lg" href="" role="button">Data (Upcoming)</a> </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+
+                    <h2>Abstract</h2>
+                    <hr style="margin-top:0px">
+
+                    <div class="b-row">
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/dtu_cam_normal_VolSDF.jpg" alt="VolSDF Normal" />
+                            <img src="img/dtu_cam_normal_NeILF++.jpg" alt="Our Normal" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/dtu_cam_base_NeILF.jpg" alt="NeILF Base Color" />
+                            <img src="img/dtu_cam_base_NeILF++.jpg" alt="Our Base Color" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/dtu_cam_render_NeILF.jpg" alt="NeILF Rendering" />
+                            <img src="img/dtu_cam_render_NeILF++.jpg" alt="Our Rendering" />
+                        </div>
+                    </div>
+                    <br>
+        
+                    <div class="b-row">
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/dtu_11_normal_VolSDF.jpg" alt="VolSDF Normal" />
+                            <img src="img/dtu_11_normal_NeILF++.jpg" alt="Our Normal" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/dtu_11_base_NeILF.jpg" alt="NeILF Base Color" />
+                            <img src="img/dtu_11_base_NeILF++.jpg" alt="Our Base Color" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/dtu_11_render_NeILF.jpg" alt="NeILF Rendering" />
+                            <img src="img/dtu_11_render_NeILF++.jpg" alt="Our Rendering" />
+                        </div>
+                    </div>
+                    <br>
+
+                    <p class="text-left">We present a novel differentiable rendering framework for joint geometry,
+                        material, and lighting estimation from multi-view images. In contrast to previous methods which
+                        assume a simplified environment map or co-located flashlights, in this work, we formulate the
+                        lighting of a static scene as one neural incident light field (NeILF) and one outgoing neural
+                        radiance field (NeRF). The key insight of the proposed method is the union of the incident and
+                        outgoing light fields through physically-based rendering and inter-reflections between surfaces,
+                        making it possible to disentangle the scene geometry, material, and lighting from image
+                        observations in a physically-based manner. The proposed incident light and inter-reflection
+                        framework can be easily applied to other NeRF systems. We show that our method can not only
+                        decompose the outgoing radiance into incident lights and surface materials, but also serve as a
+                        surface refinement module that further improves the reconstruction detail of the neural surface.
+                        We demonstrate on several datasets that the proposed method is able to achieve state-of-the-art
+                        results in terms of the geometry reconstruction quality, material estimation accuracy, and the
+                        fidelity of novel view rendering.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <br>
+    <br>
+
+    <section>
+        <div class="container">
+
+            <div class="row" style="margin-top:5px">
+                <div class="col-12 text-center">
+                    <h2>Method Overview</h2>
+                    <hr style="margin-top:0px">
+                </div>
+            </div>
+
+            <img class="img-fluid" src="img/pipeline.png" alt="">
+            <br>
+            <br>
+
+
+            <ul>
+                <li>A general light field representation by unifying the neural incident light field (<b>NeILF</b>) and
+                    neural radiance field (<b>NeRF</b>) through <b>physically-based rendering</b> and
+                    <b>inter-reflection</b> between surfaces.</li>
+                <li>An optimization scheme for the <b>joint estimation</b> of geometry, material, and lighting.</li>
+                <li>A real-world <b>linear HDR dataset</b> for material estimation and other neural rendering tasks.
+                </li>
+                <li>Can be easily applied to the NeRF family for <b>material decomposition</b> and <b>surface
+                        refinement</b></li>
+            </ul>
+
+        </div>
+    </section>
+    <br>
+    <br>
+
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2>Inter-reflection</h2>
+                </div>
+            </div>
+            <hr style="margin-top:0px">
+
+            <div class="row">
+                <div class="col-12 text-center">
+
+                    <div class="b-row">
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/syn_base_wo_ir.png" alt="Base. w/o IR" />
+                            <img src="img/syn_base_w_ir.png" alt="Base. w. IR" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/syn_roughness_wo_ir.png" alt="Roug. w/o IR" />
+                            <img src="img/syn_roughness_w_ir.png" alt="Roug. w. IR" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/syn_metallic_wo_ir.png" alt="Meta. w/o IR" />
+                            <img src="img/syn_metallic_w_ir.png" alt="Meta. w. IR" />
+                        </div>
+                    </div>
+                    <br>
+
+
+                    <div class="b-row">
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/syn_neilf_wo_ir.png" alt="Incident Lights at point x1 w/o IR" />
+                            <img src="img/syn_neilf_w_ir.png" alt="Incident Lights at point x1 w. IR" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <br>
+    <br>
+
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2>HDR vs LDR</h2>
+                </div>
+            </div>
+            <hr style="margin-top:0px">
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <br>
+                    <br>
+
+                    <p class="text-left">
+                        As the commonly used LDR images are usually processed by unknown non-linear
+                        tone-mapping, gamma correction, and value clipping, it may result in inaccurate
+                        material and lighting estimation if we directly supervise the rendering value
+                        with the LDR ground truth.
+                    </p>
+
+                    <p class="text-left">
+                        Therefore, we constructed a real-world linear HDR dataset (by using Apple Internal tools) 
+                        for material estimation and neural rendering related tasks. Comparisons between
+                        reconstructions using LDR and HDR images are visualized below.
+                    </p>
+
+                    <div class="b-row">
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/cat_base_ldr.png" alt="Base Color w. LDR" />
+                            <img src="img/cat_base_hdr.png" alt="Base Color w. HDR" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/cat_roughness_ldr.png" alt="Roug. w. LDR" />
+                            <img src="img/cat_roughness_hdr.png" alt="Roug. w. HDR" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/cat_metallic_ldr.png" alt="Meta. w. LDR" />
+                            <img src="img/cat_metallic_hdr.png" alt="Meta. from HDR" />
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="b-row">
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/shoe_base_ldr.png" alt="Base. w. LDR" />
+                            <img src="img/shoe_base_hdr.png" alt="Base. w. HDR" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/shoe_roughness_ldr.png" alt="Roug. w. LDR" />
+                            <img src="img/shoe_roughness_hdr.png" alt="Roug. w. HDR" />
+                        </div>
+                        <div class="b-dics" style="width: 100%">
+                            <img src="img/shoe_metallic_ldr.png" alt="Meta. w. LDR" />
+                            <img src="img/shoe_metallic_hdr.png" alt="Meta. w. HDR" />
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <br>
+    <br>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2>Relighting</h2>
+                </div>
+            </div>
+            <hr style="margin-top:0px">
+
+            <div class="b-row">
+                <video width="33%" playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="img/videos/dtu_scan110_geometry0001-0060.mp4" type="video/mp4">
+                </video>
+                <video width="33%" playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="img/videos/dtu_scan110_city0001-0060.mp4" type="video/mp4">
+                </video>
+                <video width="33%" playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="img/videos/dtu_scan110_studio0001-0060.mp4" type="video/mp4">
+                </video>
+            </div>
+            <br>
+
+            <div class="b-row">
+                <video width="33%" playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="img/videos/hdr_lucky_cat_geometry0001-0125.mp4" type="video/mp4">
+                </video>
+                <video width="33%" playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="img/videos/hdr_lucky_cat_city0001-0125.mp4" type="video/mp4">
+                </video>
+                <video width="33%" playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="img/videos/hdr_lucky_cat_studio0001-0125.mp4" type="video/mp4">
+                </video>
+            </div>
+
+        </div>
+    </section>
+    <br>
+    <br>
+
+
+    <footer class="text-center">
+        <div class="container">
+            <div class="row ">
+                <div class="col-12">
+                    <h2>Citation</h2>
+                    <hr style="margin-top:0px">
+                    <div class="bibtexsection">
+    @article{zhang2023neilf++,
+        title={NeILF++: Inter-reflectable Light Fields for Geometry and Material Estimation},
+        author={Zhang, Jingyang and Yao, Yao and Li, Shiwei and Liu, Jingbo and Fang, Tian and McKinnon,
+        David and Tsin, Yanghai and Quan, Long},
+        journal={arXiv},
+        year={2023}
+    }
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <p>
+                Acknowledgements: The website template was borrowed from <a href="https://lioryariv.github.io/idr/">Lior Yariv</a>.
+                Image sliders are based on <a href="https://github.com/abelcabezaroman/definitive-image-comparison-slider">dics</a>.
+            </p>
+        </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap-4.4.1.js"></script>
+</body>
+
+
+
+</html>
